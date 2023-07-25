@@ -1,6 +1,6 @@
 # secret_spice
 
-A new Flutter project.
+A new Flutter project to get the recipe, ingredients, nutritional values from image of the food.
 
 ## Getting Started
 
