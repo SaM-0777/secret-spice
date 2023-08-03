@@ -2,7 +2,11 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:secret_spice/features/home/presentations/pages/home/home.dart';
+import 'package:secret_spice/core/constants/route/route.dart';
+
+import 'package:secret_spice/features/authentication/presentation/screens/authentication_screen.dart';
+
+//import 'package:secret_spice/features/home/presentations/pages/home/home.dart';
 
 
 List<CameraDescription> cameras = [];
@@ -26,10 +30,11 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Secret Spices',
+      routes: routes,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        fontFamily: "Mulish"
       ),
-      home: const HomePage(),
+      home: const AutheticationScreen(),
     );
   }
 }

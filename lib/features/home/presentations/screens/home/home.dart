@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:secret_spice/core/constants/colors.dart';
-import 'package:secret_spice/features/home/presentations/widgets/appbar.dart';
+import 'package:secret_spice/core/constants/theme/colors.dart';
 import 'package:secret_spice/main.dart';
 
 class HomePage extends StatefulWidget {
@@ -50,17 +47,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (!cameraController.value.isInitialized) {
-      return Scaffold(
-        appBar: buildAppbar(),
-        backgroundColor: kBackground,
+      return const Scaffold(
+        //backgroundColor: kBackground,
       );
     }
     return Scaffold(
-      appBar: buildAppbar(),
-      backgroundColor: kBackground,
+      //backgroundColor: kBackground,
       body: Stack(
         children: <Widget>[
-          Container(
+          SizedBox(
             height: double.infinity,
             width: double.infinity,
             child: CameraPreview(cameraController)
