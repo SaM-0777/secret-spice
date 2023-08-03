@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../widgets/body.dart';
 
 
-class AutheticationScreen extends StatelessWidget {
-  const AutheticationScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
