@@ -39,18 +39,18 @@ class Body extends StatelessWidget {
             ),
             Form(
               child: Column(
-                children: <Widget>[
-                  const PrimaryTextInputField(
+                children: const <Widget>[
+                  PrimaryTextInputField(
                     hintText: "Username",
                     keyboardType: TextInputType.text,
                   ),
-                  const SizedBox(height: 25,),
-                  const PrimaryTextInputField(
+                  SizedBox(height: 25,),
+                  PrimaryTextInputField(
                     hintText: "Email",
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  const SizedBox(height: 25,),
-                  const PrimaryTextInputField(
+                  SizedBox(height: 25,),
+                  PrimaryTextInputField(
                     hintText: "Password",
                     keyboardType: TextInputType.emailAddress,
                   ),
@@ -60,7 +60,9 @@ class Body extends StatelessWidget {
             const Spacer(),
             PrimaryTextButton(
               labelText: "Next",
-              onPressed: (){}
+              onPressed: (){
+                Navigator.pushNamed(context, "/recommendation");
+              }
             ),
             const SizedBox(
               height: 20,
