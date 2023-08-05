@@ -2,17 +2,16 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:secret_spice/core/constants/theme/colors.dart';
 import 'package:secret_spice/main.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class CameraPreviewScreen extends StatefulWidget {
+  const CameraPreviewScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<CameraPreviewScreen> createState() => _CameraPreviewScreen();
 }
 
-class _HomePageState extends State<HomePage> {
+class _CameraPreviewScreen extends State<CameraPreviewScreen> {
   late CameraController cameraController;
 
   @override
