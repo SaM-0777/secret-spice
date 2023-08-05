@@ -10,15 +10,16 @@ class RecipeCard extends StatelessWidget {
   final bool veg;
   final String prepTime;
   final String cuisine;
+  final void Function() showBottomActionSheet;
 
   const RecipeCard({
-    super.key, required this.imageUrl, required this.title, required this.veg, required this.prepTime, required this.cuisine,
+    super.key, required this.imageUrl, required this.title, required this.veg, required this.prepTime, required this.cuisine, required this.showBottomActionSheet,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){},
+      onTap: showBottomActionSheet,
       child: Container(
         height: 140,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
