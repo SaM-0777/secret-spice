@@ -15,6 +15,7 @@ class RecipeList extends StatelessWidget {
   void showBottomActionSheet(BuildContext context) {
     showModalBottomSheet(
       isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {
         return BottomActionSheetModal(
@@ -23,7 +24,6 @@ class RecipeList extends StatelessWidget {
       }
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
