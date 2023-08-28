@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:secret_spice/core/constants/theme/colors.dart';
 import 'package:secret_spice/core/constants/theme/typography.dart';
 import 'package:secret_spice/features/camera_preview/actions/classifier/classifier.dart';
+import 'package:secret_spice/features/camera_preview/actions/classifier/classifier_category.dart';
 
 import 'camera_control.dart';
 import 'flash_button.dart';
@@ -24,8 +25,8 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   FlashMode _flashMode = FlashMode.off;
-  XFile? _image;
   late Classifier _classifier;
+  late ClassifierCategory _prediciton;
 
   @override
   void initState() {
@@ -37,14 +38,18 @@ class _BodyState extends State<Body> {
   Future<void> _loadClassifier() async {
     final classifier = await Classifier.loadWith(
       labelsFileName: "assets/model/labels.txt",
-      modelFileName: "assets/model/model.tflite",
+      modelFileName: "assets/model/model_unquant.tflite",
     );
 
     _classifier = classifier!;
   }
 
-  void classifyImage(XFile image) {
-    _classifier.predict(image);
+  Future<void> classifyImage(XFile image) async {
+    final ClassifierCategory prediction = await _classifier.predict(image);
+    debugPrint("Final Prediction : $prediction");
+    setState(() {
+      _prediciton = prediction;
+    });
   }
 
   void toggleFlash() {
@@ -64,10 +69,7 @@ class _BodyState extends State<Body> {
   Future<void> onTapTakeImage() async {
     try {
       XFile picture = await widget.cameraController.takePicture();
-      setState(() {
-        _image = picture;
-      });
-      classifyImage(picture);
+      await classifyImage(picture);
     } catch (e) {
       debugPrint("Error: $e");
     }

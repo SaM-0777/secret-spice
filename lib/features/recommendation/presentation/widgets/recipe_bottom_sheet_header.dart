@@ -17,17 +17,19 @@ class RecipeBottomSheetHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       Center(
-        child: Image.asset(
+        child: Image.network(
           imageUrl,
           fit: BoxFit.cover,
           width: 170,
           height: 170,
+          cacheHeight: 170,
+          cacheWidth: 170,
         ),
       ),
       Align(
         alignment: Alignment.topRight,
         child: Container(
-          width: 96,
+          width: isVeg ? 72 : 96,
           height: 30,
           decoration: BoxDecoration(
             color: white,
@@ -45,15 +47,12 @@ class RecipeBottomSheetHeader extends StatelessWidget {
             ]
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               SvgPicture.asset(
                 isVeg ? "assets/icons/VegIcon.svg" : "assets/icons/NonvegIcon.svg",
                 width: 18,
                 height: 18,
-              ),
-              const SizedBox(
-                width: 5,
               ),
               Text(
                 isVeg ? "Veg" : "Non-veg",

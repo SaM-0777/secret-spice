@@ -41,11 +41,15 @@ class RecipeCard extends StatelessWidget {
           children: <Widget>[
             Expanded(
               flex: 3,
-              child: Image.asset(
-                imageUrl,
-                fit: BoxFit.cover,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
+            const SizedBox(width: 10,),
             Expanded(
               flex: 7,
               child: Stack(
@@ -61,7 +65,7 @@ class RecipeCard extends StatelessWidget {
                           fontWeight: FontWeight.w800
                         ),
                       ),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 3),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
@@ -78,7 +82,7 @@ class RecipeCard extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(
-                        height: 12,
+                        height: 6,
                       ),
                       Text(
                         cuisine,
