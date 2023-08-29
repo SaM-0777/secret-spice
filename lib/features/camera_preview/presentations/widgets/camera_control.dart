@@ -6,12 +6,14 @@ import 'package:secret_spice/core/constants/theme/typography.dart';
 
 
 class CameraControl extends StatelessWidget {
+  final bool? isDisabled;
+  final void Function() onTap;
+  
   const CameraControl({
     super.key,
     required this.onTap,
+    this.isDisabled,
   });
-
-  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class CameraControl extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             GestureDetector(
-              onTap: onTap,
+              onTap: isDisabled == true ? (){} : onTap,
               child: Container(
                 padding: const EdgeInsets.all(2),
                 decoration: BoxDecoration(

@@ -86,6 +86,7 @@ class Classifier {
 
     // Resize the image to match the input tensor size
     final inputSize = _model.inputShape[1];
+    debugPrint("Input Size :  $inputSize");
     final resizedImage = copyResize(decodedImage, width: inputSize, height: inputSize);
 
     //debugPrint("$inputSize");
@@ -110,11 +111,13 @@ class Classifier {
     final Uint8List inputBuffer = await _preProcess(image);
     final outputBuffer = List.filled(1 * 15, 0).reshape([1, 15]);
 
+    debugPrint("Input Buffer: $inputBuffer");
+
     _model.interpreter.run(inputBuffer, outputBuffer);
 
     // post process
     final List<ClassifierCategory> output = _postProcess(outputBuffer);
-
+    debugPrint("$output");
     return output.last;
   }
 

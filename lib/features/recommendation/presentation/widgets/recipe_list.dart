@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:secret_spice/core/actions/show_bottom_action_sheet.dart';
 import 'package:secret_spice/core/constants/recipes/recipes.dart';
 import 'package:secret_spice/core/db/models/recipe_model.dart';
 
-import 'bottom_sheet_action_sheet_modal.dart';
 import 'recipe_card.dart';
 
 
@@ -14,21 +14,9 @@ class RecipeList extends StatelessWidget {
     super.key, required this.itemCount, required this.itemExtent,
   });
 
-  String modifyRecipeName(String name) {
-    return "H";
-  }
-
   void showBottomActionSheet(BuildContext context, RecipeModel recipe) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      context: context,
-      builder: (context) {
-        return BottomActionSheetModal(
-          recipe: recipe,
-        );
-      }
-    );
+    ShowBottomActionSheet bottomActionSheet = ShowBottomActionSheet(context: context);
+    bottomActionSheet.showBottomActionSheet(recipe);
   }
 
   @override

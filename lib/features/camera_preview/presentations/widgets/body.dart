@@ -1,10 +1,14 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:secret_spice/core/actions/show_bottom_action_sheet.dart';
+import 'package:secret_spice/core/constants/recipes/recipes.dart';
 
 import 'package:secret_spice/core/constants/theme/colors.dart';
 import 'package:secret_spice/core/constants/theme/typography.dart';
+import 'package:secret_spice/core/db/models/recipe_model.dart';
 import 'package:secret_spice/features/camera_preview/actions/classifier/classifier.dart';
 import 'package:secret_spice/features/camera_preview/actions/classifier/classifier_category.dart';
 
@@ -26,30 +30,29 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   FlashMode _flashMode = FlashMode.off;
   late Classifier _classifier;
-  late ClassifierCategory _prediciton;
+  late XFile _picture;
+  RecipeModel? _predictedRecipe;
+  bool _loading = false;
 
   @override
   void initState() {
     super.initState();
     _loadClassifier();
-    // Classifier.loadLabels("assets/model/labels.txt");
   }
 
   Future<void> _loadClassifier() async {
     final classifier = await Classifier.loadWith(
       labelsFileName: "assets/model/labels.txt",
-      modelFileName: "assets/model/model_unquant.tflite",
+      modelFileName: "assets/model/model.tflite",
     );
-
     _classifier = classifier!;
   }
 
-  Future<void> classifyImage(XFile image) async {
+  Future<RecipeModel> classifyImage(XFile image) async {
     final ClassifierCategory prediction = await _classifier.predict(image);
     debugPrint("Final Prediction : $prediction");
-    setState(() {
-      _prediciton = prediction;
-    });
+    RecipeModel predictedRecipe = recipes.firstWhere((recipe) => recipe.name == prediction.label);
+    return predictedRecipe;
   }
 
   void toggleFlash() {
@@ -66,10 +69,32 @@ class _BodyState extends State<Body> {
     }
   }
 
+  void showBottomActionSheet(RecipeModel recipe) {
+    ShowBottomActionSheet showBottomActionSheet = ShowBottomActionSheet(context: context);
+    showBottomActionSheet.showBottomActionSheet(recipe, () {
+      setState(() {
+        _predictedRecipe = null;
+      });
+    });
+  }
+
+  void toggleLoading([bool? loading]) {
+    setState(() {
+      _loading = loading ?? !_loading;
+    });
+  }
+
   Future<void> onTapTakeImage() async {
     try {
+      toggleLoading(true);
       XFile picture = await widget.cameraController.takePicture();
-      await classifyImage(picture);
+      RecipeModel predictedRecipe = await classifyImage(picture);
+      setState(() {
+        _picture = picture;
+        _predictedRecipe = predictedRecipe;
+      });
+      showBottomActionSheet(predictedRecipe);
+      toggleLoading();
     } catch (e) {
       debugPrint("Error: $e");
     }
@@ -78,7 +103,18 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: <Widget>[
+      body: _predictedRecipe != null
+      ? SizedBox(
+        height: double.maxFinite,
+        width: double.maxFinite, 
+        child: Image.file(
+          File(_picture.path),
+          fit: BoxFit.fill,
+          width: double.maxFinite,
+          height: double.maxFinite,
+        )
+      )
+      : Stack(children: <Widget>[
         SizedBox(
           height: double.maxFinite,
           width: double.maxFinite,
@@ -114,6 +150,7 @@ class _BodyState extends State<Body> {
                 alignment: Alignment.bottomCenter,
                 child: CameraControl(
                   onTap: onTapTakeImage,
+                  isDisabled: !_loading,
                 ),
               ),
             ],
