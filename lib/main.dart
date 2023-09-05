@@ -8,12 +8,13 @@ import 'package:secret_spice/features/authentication/presentation/screens/authen
 
 //import 'package:secret_spice/features/home/presentations/pages/home/home.dart';
 
-
 List<CameraDescription> cameras = [];
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   cameras = await availableCameras();
   runApp(const App());
 }
@@ -23,17 +24,17 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark
+      )
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Secret Spices',
       routes: routes,
-      theme: ThemeData(
-        fontFamily: "Mulish"
-      ),
+      theme: ThemeData(fontFamily: "Mulish"),
       home: const AutheticationScreen(),
     );
   }

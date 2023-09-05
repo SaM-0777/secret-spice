@@ -6,12 +6,16 @@ import 'package:secret_spice/core/constants/theme/typography.dart';
 
 
 class CameraControl extends StatelessWidget {
+  final bool? isDisabled;
+  final void Function() onTap;
+  final void Function() onTapPickImage;
+  
   const CameraControl({
     super.key,
+    this.isDisabled,
     required this.onTap,
+    required this.onTapPickImage,
   });
-
-  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -35,52 +39,49 @@ class CameraControl extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        Stack(
           children: <Widget>[
-            GestureDetector(
-              onTap: onTap,
-              child: Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  border: Border.all(
-                    width: 1,
-                    color: white,
-                  ),
-                  borderRadius: BorderRadius.circular(999),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(50, 10, 0, 0),
+              child: IconButton(
+                icon: SvgPicture.asset(
+                  "assets/icons/GalleryIcon.svg",
+                  width: 40,
+                  height: 40,
                 ),
+                onPressed: isDisabled == true ? (){} : onTapPickImage,
+              ),
+            ),
+            Align(
+              //alignment: Alignment.center,
+              child: GestureDetector(
+                onTap: isDisabled == true ? (){} : onTap,
                 child: Container(
-                  padding: const EdgeInsets.all(16),
-                  margin: const EdgeInsets.all(2),
+                  padding: const EdgeInsets.all(2),
                   decoration: BoxDecoration(
-                    color: white,
+                    color: Colors.transparent,
+                    border: Border.all(
+                      width: 1,
+                      color: white,
+                    ),
                     borderRadius: BorderRadius.circular(999),
                   ),
-                  child: SvgPicture.asset(
-                    "assets/icons/SearchIcon.svg",
-                    width: 32,
-                    height: 32,
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: white,
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: SvgPicture.asset(
+                      "assets/icons/SearchIcon.svg",
+                      width: 32,
+                      height: 32,
+                    ),
                   ),
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  left: BorderSide(width: 1, color: white),
-                  top: BorderSide(width: 1, color: white),
-                ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                ),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: white,
-                ),
-              ),
-            )
           ],
         ),
         const SizedBox(

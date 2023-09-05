@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 
 import 'package:secret_spice/core/constants/theme/colors.dart';
+import 'package:secret_spice/core/db/models/recipe_model.dart';
 
 import 'nutrition_column.dart';
 
+class Nutrition {
+  final String label;
+  final double value;
+
+  const Nutrition({
+    required this.label,
+    required this.value,
+  });
+}
+
 class NutritionList extends StatelessWidget {
-  final List<Map<String, dynamic>> nutritions;
-  
+  final List<Nutrition> nutritions;
   const NutritionList({
     super.key, required this.nutritions,
   });
@@ -34,13 +44,12 @@ class NutritionList extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: nutritions.map((nutrition) {
-            return NutritionColumn(
-              value: nutrition["value"],
-              name: nutrition["name"],
-            );
-          }
-        ).toList()
+        children: nutritions.map<Widget>((nutrition) {
+          return NutritionColumn(
+            value: nutrition.value,
+            label: nutrition.label,
+          );
+        }).toList()
       ),
     );
   }

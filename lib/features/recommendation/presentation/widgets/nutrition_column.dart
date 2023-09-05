@@ -5,11 +5,11 @@ import 'package:secret_spice/core/constants/theme/typography.dart';
 
 
 class NutritionColumn extends StatelessWidget {
-  final int value;
-  final String name;
+  final double value;
+  final String label;
   
   const NutritionColumn({
-    super.key, required this.value, required this.name,
+    super.key, required this.value, required this.label,
   });
 
   @override
@@ -21,7 +21,7 @@ class NutritionColumn extends StatelessWidget {
           style: pricesmall.copyWith(color: neutral800),
         ),
         Text(
-          name.toLowerCase(),
+          label.toLowerCase(),
           style: body2.copyWith(color: neutral500),
         ),
       ],
