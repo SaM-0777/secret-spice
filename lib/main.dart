@@ -2,14 +2,19 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:secret_spice/features/home/presentations/pages/home/home.dart';
+import 'package:secret_spice/core/constants/route/route.dart';
 
+import 'package:secret_spice/features/authentication/presentation/screens/authentication_screen.dart';
+
+//import 'package:secret_spice/features/home/presentations/pages/home/home.dart';
 
 List<CameraDescription> cameras = [];
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   cameras = await availableCameras();
   runApp(const App());
 }
@@ -19,17 +24,18 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark
+      )
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Secret Spices',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(),
+      routes: routes,
+      theme: ThemeData(fontFamily: "Mulish"),
+      home: const AutheticationScreen(),
     );
   }
 }
