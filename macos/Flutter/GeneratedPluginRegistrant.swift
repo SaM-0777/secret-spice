@@ -8,6 +8,7 @@ import Foundation
 import file_selector_macos
 import path_provider_foundation
 import sqflite
+import path_provider_foundation
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FileSelectorPlugin.register(with: registry.registrar(forPlugin: "FileSelectorPlugin"))
