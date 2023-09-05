@@ -43,6 +43,7 @@ class IngredientList extends StatelessWidget {
                 child: Text(
                   ingredients[index],
                   style: body2.copyWith(color: neutral500),
+                  textAlign: TextAlign.center,
                 ),
               ),
             );

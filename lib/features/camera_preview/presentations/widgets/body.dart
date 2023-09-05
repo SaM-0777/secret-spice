@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:secret_spice/core/actions/show_bottom_action_sheet.dart';
 import 'package:secret_spice/core/constants/recipes/recipes.dart';
 
@@ -94,10 +95,29 @@ class _BodyState extends State<Body> {
         _predictedRecipe = predictedRecipe;
       });
       showBottomActionSheet(predictedRecipe);
-      toggleLoading();
     } catch (e) {
-      debugPrint("Error: $e");
+      debugPrint("Error taking image: $e");
     }
+    toggleLoading(false);
+  }
+
+  Future<void> onTapPickImage() async {
+    final ImagePicker imagePicker = ImagePicker();
+    toggleLoading(true);
+    try {
+      final XFile? pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
+      if (pickedImage != null) {
+        final RecipeModel predictedRecipe = await classifyImage(pickedImage);
+        setState(() {
+          _picture = pickedImage;
+          _predictedRecipe = predictedRecipe;
+        });
+        showBottomActionSheet(predictedRecipe);
+      }
+    } catch (e) {
+      debugPrint("Error picking image: $e");
+    }
+    toggleLoading(false);
   }
 
   @override
@@ -149,8 +169,10 @@ class _BodyState extends State<Body> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: CameraControl(
+                  isDisabled: _loading,
                   onTap: onTapTakeImage,
-                  isDisabled: !_loading,
+                  onTapPickImage: onTapPickImage,
+                  //isDisabled: !_loading,
                 ),
               ),
             ],
